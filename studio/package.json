@@ -1,0 +1,22 @@
+{
+  "name": "museofseoul-studio",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "sanity dev --port 3334",
+    "build": "sanity build",
+    "deploy": "sanity deploy"
+  },
+  "dependencies": {
+    "@sanity/vision": "^4",
+    "react": "^19",
+    "react-dom": "^19",
+    "sanity": "^4",
+    "styled-components": "^6.4.4"
+  },
+  "devDependencies": {
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "typescript": "^5"
+  }
+}

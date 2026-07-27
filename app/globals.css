@@ -2,25 +2,21 @@
 
 :root {
   --background: #ffffff;
-  --foreground: #171717;
+  --foreground: #37263a; /* Editorial Plum */
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --color-cream: #efe7da; /* Seoul Ivory Beige */
+  --color-mauve: #735364; /* Seoul Mauve */
+  --color-aqua: #acced1; /* Pure Dew Aqua */
+  --color-plum: #37263a; /* Editorial Plum */
+  --font-sans: var(--font-montserrat);
+  --font-serif: var(--font-playfair);
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
 }

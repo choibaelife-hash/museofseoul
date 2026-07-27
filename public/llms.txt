@@ -1,0 +1,9 @@
+# Muse of Seoul
+> Beauty, food, and lifestyle guides for Seoul, written by a local.
+
+## Categories
+- Beauty Treatments: /category/beauty
+- K-Beauty Products: /category/k-beauty
+- Stay in Seoul: /category/stay
+- Food & Cafes: /category/food
+- Seoul Neighborhoods: /category/neighborhoods
