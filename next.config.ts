@@ -12,11 +12,12 @@ const securityHeaders = [
     value: [
       "default-src 'self'",
       // 'unsafe-eval' is required for React/Turbopack's dev-mode debugging (HMR, stack traces).
-      `script-src 'self' 'unsafe-inline'${process.env.NODE_ENV === "development" ? " 'unsafe-eval'" : ""}`,
+      // googletagmanager.com is GA4's script host.
+      `script-src 'self' 'unsafe-inline' https://www.googletagmanager.com${process.env.NODE_ENV === "development" ? " 'unsafe-eval'" : ""}`,
       "style-src 'self' 'unsafe-inline'",
       "img-src 'self' data: https:",
       "font-src 'self' data:",
-      "connect-src 'self' https://*.sanity.io",
+      "connect-src 'self' https://*.sanity.io https://www.googletagmanager.com https://*.google-analytics.com",
       "frame-ancestors 'none'",
     ].join("; "),
   },

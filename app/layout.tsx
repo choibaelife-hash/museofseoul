@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Script from "next/script";
 import { Playfair_Display, Montserrat } from "next/font/google";
 import { draftMode } from "next/headers";
 import { VisualEditing } from "next-sanity/visual-editing";
@@ -39,6 +40,18 @@ export default async function RootLayout({
       className={`${playfair.variable} ${montserrat.variable} h-full antialiased`}
     >
       <body className="flex min-h-full flex-col font-sans">
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=G-P3K99GG534"
+          strategy="afterInteractive"
+        />
+        <Script id="ga4" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-P3K99GG534');
+          `}
+        </Script>
         <Header />
         <main className="flex-1">{children}</main>
         <Footer />
