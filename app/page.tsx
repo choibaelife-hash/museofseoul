@@ -6,6 +6,7 @@ import { StatsBar } from "@/components/StatsBar";
 import { NewsletterCTA } from "@/components/NewsletterCTA";
 import { SeoulBeautyInsider } from "@/components/sections/SeoulBeautyInsider";
 import { categories, getCategory, siteConfig } from "@/lib/site";
+import type { Category } from "@/lib/site";
 import { sanityFetch } from "@/lib/sanity/fetch";
 import { insiderPostsQuery, latestPostsQuery } from "@/lib/sanity/queries";
 import type { InsiderPost, Post } from "@/lib/types";
@@ -13,7 +14,14 @@ import type { InsiderPost, Post } from "@/lib/types";
 const outlineButton =
   "inline-block border border-foreground px-5 py-2.5 text-xs uppercase tracking-widest text-foreground transition-colors hover:bg-foreground hover:text-white";
 
-const categoryTileColors = ["bg-mauve/10", "bg-aqua/20", "bg-cream", "bg-mauve/5", "bg-aqua/10"];
+// One brand color per category, tuned to a similar tint strength so no
+// single tile reads darker/more saturated than the others.
+const categoryTileColors: Record<Category["slug"], string> = {
+  beauty: "bg-mauve/12",
+  "k-beauty": "bg-aqua/30",
+  stay: "bg-cream/70",
+  "where-to-go": "bg-plum/8",
+};
 
 // Categories fall back to a color tile until the real photo is dropped
 // into /public — see the `image` field in lib/site.ts.
@@ -168,13 +176,13 @@ export default async function Home() {
           </Link>
         </div>
         <div className="grid grid-cols-2 sm:grid-cols-4 md:col-span-5 md:grid-cols-4">
-          {categories.map((category, i) => {
+          {categories.map((category) => {
             const hasImage = categoryImageExists(category.image);
             return (
               <Link
                 key={category.slug}
                 href={`/category/${category.slug}`}
-                className={`group relative flex aspect-[3/4] flex-col justify-end overflow-hidden border-b border-r border-foreground/10 p-5 last:border-r-0 ${hasImage ? "" : categoryTileColors[i % categoryTileColors.length]}`}
+                className={`group relative flex aspect-[3/4] flex-col justify-end overflow-hidden border-b border-r border-foreground/10 p-5 last:border-r-0 ${hasImage ? "" : categoryTileColors[category.slug]}`}
               >
                 {hasImage ? (
                   <>

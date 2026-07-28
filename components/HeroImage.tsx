@@ -5,12 +5,14 @@ import Image from "next/image";
 export function HeroImage({
   src,
   alt,
+  aspectClassName = "aspect-[16/9]",
 }: {
   src?: string;
   alt: string;
+  aspectClassName?: string;
 }) {
   return (
-    <div className="relative aspect-[16/9] w-full overflow-hidden bg-black/5">
+    <div className={`relative w-full overflow-hidden bg-black/5 ${aspectClassName}`}>
       {src ? (
         <Image src={src} alt={alt} fill className="object-cover" />
       ) : (

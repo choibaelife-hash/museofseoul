@@ -3,12 +3,20 @@ import { HeroImage } from "@/components/HeroImage";
 import { CategoryBadge } from "@/components/CategoryBadge";
 import type { Post } from "@/lib/types";
 
-export function PostCard({ post }: { post: Post }) {
+export function PostCard({
+  post,
+  showCategory = true,
+  imageAspect,
+}: {
+  post: Post;
+  showCategory?: boolean;
+  imageAspect?: string;
+}) {
   return (
     <Link href={`/blog/${post.slug}`} className="group block">
-      <HeroImage src={post.mainImage?.url} alt={post.title} />
+      <HeroImage src={post.mainImage?.url} alt={post.title} aspectClassName={imageAspect} />
       <div className="mt-3 flex flex-col gap-2">
-        <CategoryBadge slug={post.category} asLink={false} />
+        {showCategory && <CategoryBadge slug={post.category} asLink={false} />}
         <h3 className="font-serif text-lg leading-snug group-hover:underline">
           {post.title}
         </h3>
