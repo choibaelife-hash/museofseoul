@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { categories, siteConfig } from "@/lib/site";
+import { SiInstagram, SiPinterest, SiXiaohongshu, SiYoutube } from "react-icons/si";
+import { siteConfig } from "@/lib/site";
 
 export function Footer() {
   return (
@@ -8,22 +9,25 @@ export function Footer() {
         <div>
           <p className="font-serif text-lg text-black">{siteConfig.name}</p>
           <p className="mt-1 max-w-xs">{siteConfig.description}</p>
+          <Link href="mailto:themuseofseoul@gmail.com" className="mt-2 inline-block hover:underline">
+            themuseofseoul@gmail.com
+          </Link>
         </div>
 
-        <div className="flex flex-col gap-1">
-          <span className="font-medium text-black">Categories</span>
-          {categories.map((category) => (
-            <Link key={category.slug} href={`/category/${category.slug}`}>
-              {category.label}
-            </Link>
-          ))}
-        </div>
-
-        <div className="flex flex-col gap-1">
-          <span className="font-medium text-black">Elsewhere</span>
-          {/* TODO: link to YouTube "경민 in Seoul" and 샤오홍슈 once URLs are confirmed */}
-          <span>YouTube — Kyungmin in Seoul</span>
-          <span>Xiaohongshu</span>
+        <div className="flex items-start gap-4">
+          {/* TODO: replace "#" with real profile URLs once accounts are live */}
+          <a href="#" aria-label="YouTube" className="text-black/60 hover:text-black">
+            <SiYoutube size={18} />
+          </a>
+          <a href="#" aria-label="Xiaohongshu" className="text-black/60 hover:text-black">
+            <SiXiaohongshu size={18} />
+          </a>
+          <a href="#" aria-label="Instagram" className="text-black/60 hover:text-black">
+            <SiInstagram size={18} />
+          </a>
+          <a href="#" aria-label="Pinterest" className="text-black/60 hover:text-black">
+            <SiPinterest size={18} />
+          </a>
         </div>
       </div>
     </footer>

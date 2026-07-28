@@ -37,7 +37,7 @@ export const categories: Category[] = [
 export const siteConfig = {
   name: "Muse of Seoul",
   tagline: "Seoul through a local's eyes",
-  description: "Beauty, food, and lifestyle guides for Seoul, written by a local.",
+  description: "K-beauty insider Blog — your guide to beauty clinics, tours, and honest local tips in Seoul.",
   // TODO: replace with the production domain once deployed
   url: "https://museofseoul.com",
   // TODO: fill in with real counts before enabling the Stats section on Home
