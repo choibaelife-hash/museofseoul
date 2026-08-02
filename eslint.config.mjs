@@ -12,6 +12,10 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // studio/ is a separate sub-project with its own tooling — its build
+    // output (studio/dist) contains huge minified bundles that crash ESLint
+    // (OOM) if linted.
+    "studio/**",
   ]),
 ]);
 

@@ -4,7 +4,7 @@ import type { PortableTextBlock } from "next-sanity";
 
 const components: PortableTextComponents = {
   types: {
-    image: ({ value }) => (
+    bodyImage: ({ value }) => (
       <span className="relative my-6 block aspect-[16/9] w-full overflow-hidden rounded-lg bg-black/5">
         <Image src={value.url} alt={value.alt || ""} fill className="object-cover" />
       </span>

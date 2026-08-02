@@ -146,7 +146,7 @@ export const postType = defineType({
         }),
         defineArrayMember({
           type: "object",
-          name: "image",
+          name: "bodyImage",
           fields: [
             defineField({
               name: "url",

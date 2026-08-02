@@ -19,6 +19,7 @@ export async function sanityFetch<T>({
     useCdn: !isDraftMode,
     stega: isDraftMode,
     token: isDraftMode ? process.env.SANITY_API_READ_TOKEN : undefined,
+    next: isDraftMode ? { revalidate: 0 } : { revalidate: 60 },
   });
 
   return { data };
