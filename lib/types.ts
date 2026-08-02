@@ -30,11 +30,23 @@ export type Post = {
   category: Category["slug"];
   subcategory?: string;
   publishedAt: string;
+  author?: string;
   mainImage?: PostImage;
   excerpt: string;
   body?: PortableTextBlock[];
   quickInfo?: QuickInfo;
   faqSection?: Faq[];
+  metaTitle?: string;
+  metaDescription?: string;
+  ogImage?: PostImage;
+  keywords?: string[];
+  canonical?: string;
+  noindex?: boolean;
+  schemaOrgType?: "BlogPosting" | "Review" | "FAQPage";
+  isBusinessReview?: boolean;
+  business?: { name?: string; address?: string };
+  twitterTitle?: string;
+  twitterDescription?: string;
 };
 
 export type InsiderPost = {
