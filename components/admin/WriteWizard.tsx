@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo, useRef, useState } from "react";
+import Link from "next/link";
 import { categories } from "@/lib/site";
 import { parseMarkdownBlocks } from "@/lib/sanity/parseMarkdown";
 import { DRAFTS_KEY } from "@/lib/adminDrafts";
@@ -288,7 +289,10 @@ ${direction || "(미정)"}
 
   return (
     <div className="mx-auto max-w-3xl px-6 py-10 text-plum">
-      <h1 className="font-serif text-2xl">글 작성하기</h1>
+      <Link href="/admin" className="text-sm text-mauve hover:text-plum">
+        ← 관리자 홈
+      </Link>
+      <h1 className="mt-3 font-serif text-2xl">글 작성하기</h1>
       <p className="mt-1 text-sm text-mauve">Muse of Seoul Studio · 관리자</p>
 
       <nav className="mt-8 flex items-center border-b border-plum/12 pb-5">

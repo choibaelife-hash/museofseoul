@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef, useState } from "react";
+import Link from "next/link";
 import { categories } from "@/lib/site";
 
 type UploadedImage = { name: string; url: string; alt: string };
@@ -47,7 +48,10 @@ export function ImageUploadTool() {
 
   return (
     <div className="mx-auto max-w-3xl px-6 py-10 text-plum">
-      <h1 className="font-serif text-2xl">이미지 업로드</h1>
+      <Link href="/admin" className="text-sm text-mauve hover:text-plum">
+        ← 관리자 홈
+      </Link>
+      <h1 className="mt-3 font-serif text-2xl">이미지 업로드</h1>
       <p className="mt-1 text-sm text-mauve">Muse of Seoul Studio · R2 저장소</p>
 
       <div className={`${cardClass} mt-8`}>
