@@ -15,7 +15,7 @@ const securityHeaders = [
       // googletagmanager.com is GA4's script host.
       `script-src 'self' 'unsafe-inline' https://www.googletagmanager.com${process.env.NODE_ENV === "development" ? " 'unsafe-eval'" : ""}`,
       "style-src 'self' 'unsafe-inline'",
-      "img-src 'self' data: https:",
+      "img-src 'self' data: blob: https:",
       "font-src 'self' data:",
       "connect-src 'self' https://*.sanity.io https://www.googletagmanager.com https://*.google-analytics.com",
       "frame-ancestors 'none'",

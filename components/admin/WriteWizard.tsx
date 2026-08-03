@@ -321,7 +321,7 @@ ${direction || "(미정)"}
           </div>
 
           <div className={cardClass}>
-            <label className={labelClass}>이미지 업로드 (R2) — 저장 버튼을 눌러야 올라가요</label>
+            <label className={labelClass}>이미지 업로드</label>
             <div className="grid grid-cols-3 gap-2.5">
               <div
                 onDragOver={(e) => {
