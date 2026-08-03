@@ -1,7 +1,8 @@
 "use client";
 
-import { useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 import { categories } from "@/lib/site";
 import { parseMarkdownBlocks } from "@/lib/sanity/parseMarkdown";
 import { DRAFTS_KEY } from "@/lib/adminDrafts";
@@ -9,6 +10,20 @@ import { DRAFTS_KEY } from "@/lib/adminDrafts";
 type FaqItem = { question: string; answer: string };
 type ImageItem = { url: string; alt: string; key: string };
 type PendingImage = { file: File; previewUrl: string };
+type SavedDraft = {
+  id: string;
+  category: string;
+  folder: string;
+  memo: string;
+  direction: string;
+  focusKeyphrase: string;
+  title: string;
+  slug: string;
+  excerpt: string;
+  images: ImageItem[];
+  mainIndex: number;
+  bodyMarkdown: string;
+};
 
 async function uploadToR2(file: File, category: string, folder: string) {
   const formData = new FormData();
@@ -67,6 +82,7 @@ const secondaryBtn = "rounded-md border border-plum/25 px-5 py-2.5 text-sm text-
 const ghostLink = "text-sm text-mauve hover:text-plum";
 
 export function WriteWizard() {
+  const searchParams = useSearchParams();
   const [step, setStep] = useState<1 | 2>(1);
 
   const [category, setCategory] = useState(categories[0].slug);
@@ -99,8 +115,33 @@ export function WriteWizard() {
   const [status, setStatus] = useState<"idle" | "saving" | "done" | "error">("idle");
   const [message, setMessage] = useState("");
   const [draftMessage, setDraftMessage] = useState("");
+  const [currentDraftId, setCurrentDraftId] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const imageInputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    const draftId = searchParams.get("draft");
+    if (!draftId) return;
+    const raw = localStorage.getItem(DRAFTS_KEY);
+    if (!raw) return;
+    const drafts: SavedDraft[] = JSON.parse(raw);
+    const found = drafts.find((d) => d.id === draftId);
+    if (!found) return;
+    setCategory(found.category as (typeof categories)[number]["slug"]);
+    setFolder(found.folder);
+    setMemo(found.memo);
+    setDirection(found.direction);
+    setFocusKeyphrase(found.focusKeyphrase);
+    setTitle(found.title);
+    setSlug(found.slug);
+    setSlugTouched(true);
+    setExcerpt(found.excerpt);
+    setImages(found.images);
+    setMainIndex(found.mainIndex);
+    setBodyMarkdown(found.bodyMarkdown);
+    setCurrentDraftId(found.id);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   function handleTitleChange(value: string) {
     setTitle(value);
@@ -195,8 +236,8 @@ ${direction || "(미정)"}
   }
 
   function saveDraft() {
-    const draft = {
-      id: Date.now().toString(36),
+    const draft: SavedDraft & { savedAt: string } = {
+      id: currentDraftId ?? Date.now().toString(36),
       savedAt: new Date().toISOString(),
       category,
       folder,
@@ -208,9 +249,12 @@ ${direction || "(미정)"}
       excerpt,
       images,
       mainIndex,
+      bodyMarkdown,
     };
-    const existing = JSON.parse(localStorage.getItem(DRAFTS_KEY) ?? "[]");
-    localStorage.setItem(DRAFTS_KEY, JSON.stringify([...existing, draft]));
+    const existing: SavedDraft[] = JSON.parse(localStorage.getItem(DRAFTS_KEY) ?? "[]");
+    const withoutCurrent = existing.filter((d) => d.id !== draft.id);
+    localStorage.setItem(DRAFTS_KEY, JSON.stringify([...withoutCurrent, draft]));
+    setCurrentDraftId(draft.id);
     setDraftMessage("임시저장 완료");
     setTimeout(() => setDraftMessage(""), 2000);
   }

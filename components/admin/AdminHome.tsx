@@ -1,16 +1,30 @@
-import Link from "next/link";
+"use client";
 
-const mockDrafts = [
-  { id: "m1", title: "강남 하이드라페이셜 후기", hasImages: true, hasBody: false, savedAt: "8/3 14:20" },
-  { id: "m2", title: "이대 왁싱 후기", hasImages: true, hasBody: true, savedAt: "8/2 09:10" },
-  { id: "m3", title: "홍대 반영구 눈썹", hasImages: false, hasBody: false, savedAt: "8/1 21:45" },
-];
+import Link from "next/link";
+import { useEffect, useState } from "react";
+import { DRAFTS_KEY } from "@/lib/adminDrafts";
+
+type Draft = {
+  id: string;
+  savedAt: string;
+  folder: string;
+  title: string;
+  images: unknown[];
+  bodyMarkdown: string;
+};
 
 const cardClass = "rounded-lg border border-plum/12 bg-background p-5";
 const labelClass = "mb-2 block text-xs uppercase tracking-wide text-mauve";
 const smallBtn = "rounded-md border border-plum/25 px-3 py-1.5 text-xs text-plum hover:bg-cream";
 
 export function AdminHome() {
+  const [drafts, setDrafts] = useState<Draft[]>([]);
+
+  useEffect(() => {
+    const raw = localStorage.getItem(DRAFTS_KEY);
+    if (raw) setDrafts(JSON.parse(raw));
+  }, []);
+
   return (
     <div className="mx-auto max-w-3xl px-6 py-10 text-plum">
       <h1 className="font-serif text-2xl">Muse of Seoul Studio</h1>
@@ -34,28 +48,36 @@ export function AdminHome() {
           </Link>
         </div>
 
-        <div className="overflow-x-auto">
-          <table className="mt-2 w-full text-sm">
-            <thead>
-              <tr className="border-b border-plum/12 text-left text-xs uppercase tracking-wide text-mauve">
-                <th className="py-2 pr-2">제목</th>
-                <th className="py-2 pr-2">이미지</th>
-                <th className="py-2 pr-2">본문</th>
-                <th className="py-2">1차 저장 시간</th>
-              </tr>
-            </thead>
-            <tbody>
-              {mockDrafts.map((d) => (
-                <tr key={d.id} className="border-b border-plum/8 last:border-0">
-                  <td className="py-2 pr-2">{d.title}</td>
-                  <td className="py-2 pr-2">{d.hasImages ? "O" : "-"}</td>
-                  <td className="py-2 pr-2">{d.hasBody ? "O" : "-"}</td>
-                  <td className="py-2 text-mauve">{d.savedAt}</td>
+        {drafts.length === 0 ? (
+          <p className="mt-2 text-sm text-mauve">저장된 글감이 없어요.</p>
+        ) : (
+          <div className="overflow-x-auto">
+            <table className="mt-2 w-full text-sm">
+              <thead>
+                <tr className="border-b border-plum/12 text-left text-xs uppercase tracking-wide text-mauve">
+                  <th className="py-2 pr-2">제목</th>
+                  <th className="py-2 pr-2">이미지</th>
+                  <th className="py-2 pr-2">본문</th>
+                  <th className="py-2">1차 저장 시간</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+              </thead>
+              <tbody>
+                {drafts.map((d) => (
+                  <tr key={d.id} className="border-b border-plum/8 last:border-0">
+                    <td className="py-2 pr-2">
+                      <Link href={`/admin/write?draft=${d.id}`} className="text-plum underline hover:text-mauve">
+                        {d.title || d.folder || "(제목 없음)"}
+                      </Link>
+                    </td>
+                    <td className="py-2 pr-2">{d.images?.length ? "O" : "-"}</td>
+                    <td className="py-2 pr-2">{d.bodyMarkdown?.trim() ? "O" : "-"}</td>
+                    <td className="py-2 text-mauve">{new Date(d.savedAt).toLocaleString("ko-KR")}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
       </div>
     </div>
   );
