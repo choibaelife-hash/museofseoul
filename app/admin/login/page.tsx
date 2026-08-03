@@ -22,7 +22,7 @@ async function login(formData: FormData) {
     path: "/",
     maxAge: 60 * 60 * 24 * 30,
   });
-  redirect("/admin/write");
+  redirect("/admin");
 }
 
 export default async function LoginPage({

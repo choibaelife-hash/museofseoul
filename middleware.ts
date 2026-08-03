@@ -14,7 +14,7 @@ export function middleware(request: NextRequest) {
   }
   if (authed && isLoginPage) {
     const url = request.nextUrl.clone();
-    url.pathname = "/admin/write";
+    url.pathname = "/admin";
     return NextResponse.redirect(url);
   }
   return NextResponse.next();

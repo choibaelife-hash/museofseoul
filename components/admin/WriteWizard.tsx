@@ -3,6 +3,7 @@
 import { useMemo, useRef, useState } from "react";
 import { categories } from "@/lib/site";
 import { parseMarkdownBlocks } from "@/lib/sanity/parseMarkdown";
+import { DRAFTS_KEY } from "@/lib/adminDrafts";
 
 type FaqItem = { question: string; answer: string };
 type ImageItem = { url: string; alt: string; key: string };
@@ -96,6 +97,7 @@ export function WriteWizard() {
 
   const [status, setStatus] = useState<"idle" | "saving" | "done" | "error">("idle");
   const [message, setMessage] = useState("");
+  const [draftMessage, setDraftMessage] = useState("");
   const fileInputRef = useRef<HTMLInputElement>(null);
   const imageInputRef = useRef<HTMLInputElement>(null);
 
@@ -189,6 +191,27 @@ ${direction || "(미정)"}
 마크다운 — 소제목은 \`## \`, 문단은 빈 줄로 구분, 이미지는 \`![]()\` 형식으로 본문 중간에 배치`;
 
     downloadFile(`prompt_${slug || "post"}.md`, md);
+  }
+
+  function saveDraft() {
+    const draft = {
+      id: Date.now().toString(36),
+      savedAt: new Date().toISOString(),
+      category,
+      folder,
+      memo,
+      direction,
+      focusKeyphrase,
+      title,
+      slug,
+      excerpt,
+      images,
+      mainIndex,
+    };
+    const existing = JSON.parse(localStorage.getItem(DRAFTS_KEY) ?? "[]");
+    localStorage.setItem(DRAFTS_KEY, JSON.stringify([...existing, draft]));
+    setDraftMessage("임시저장 완료");
+    setTimeout(() => setDraftMessage(""), 2000);
   }
 
   function handleUploadMd(e: React.ChangeEvent<HTMLInputElement>) {
@@ -311,7 +334,7 @@ ${direction || "(미정)"}
           </div>
 
           <div className={cardClass}>
-            <label className={labelClass}>폴더명</label>
+            <label className={labelClass}>포스팅 폴더명</label>
             <input
               value={folder}
               onChange={(e) => setFolder(e.target.value)}
@@ -421,14 +444,6 @@ ${direction || "(미정)"}
             {images.length > 0 && (
               <p className="mt-2 text-xs text-mauve">사진을 클릭하면 크게 보여요 — 대표 지정은 아래 버튼으로.</p>
             )}
-
-            <div className="mt-3 flex items-start gap-2 rounded-lg bg-cream p-3 text-xs text-mauve">
-              <span>📮</span>
-              <span>
-                <b className="text-plum">텔레그램으로도 가능</b> — 나중에 봇으로 사진·메모를 보내면 이 화면에 그대로
-                채워지도록 붙일 자리예요.
-              </span>
-            </div>
           </div>
 
           <div className={cardClass}>
@@ -439,6 +454,17 @@ ${direction || "(미정)"}
               rows={3}
               className={inputClass}
               placeholder="이 글에서 하고 싶은 이야기, 참고할 내용"
+            />
+          </div>
+
+          <div className={cardClass}>
+            <label className={labelClass}>글 방향 / 구조</label>
+            <textarea
+              value={direction}
+              onChange={(e) => setDirection(e.target.value)}
+              rows={3}
+              className={inputClass}
+              placeholder="가격 → 소요시간 → 통증 → 영어 응대 순서로. 마지막에 예약 팁 한 문단."
             />
           </div>
 
@@ -473,30 +499,25 @@ ${direction || "(미정)"}
             <textarea value={excerpt} onChange={(e) => setExcerpt(e.target.value)} rows={2} className={inputClass} />
           </div>
 
-          <div className={cardClass}>
-            <label className={labelClass}>글 방향 / 구조</label>
-            <textarea
-              value={direction}
-              onChange={(e) => setDirection(e.target.value)}
-              rows={3}
-              className={inputClass}
-              placeholder="가격 → 소요시간 → 통증 → 영어 응대 순서로. 마지막에 예약 팁 한 문단."
-            />
-          </div>
-
           <div className="rounded-lg border border-plum/12 bg-cream p-5">
-            <p className="mb-3 text-sm text-plum/80">
+            <p className="text-sm text-plum/80">
               여기까지 정한 내용을 프롬프트 md 파일로 내려받아서 Claude에 붙여넣어 글을 쓰세요. 받은 결과를 md로
               저장해서 다음 단계에 업로드하면 돼요.
             </p>
-            <button type="button" onClick={exportPromptMd} className={primaryBtn}>
-              프롬프트 MD 다운로드
-            </button>
           </div>
 
-          <button type="button" onClick={() => setStep(2)} className={`self-end ${primaryBtn}`}>
-            다음: 본문 생성 & 발행 →
-          </button>
+          <div className="flex flex-wrap items-center justify-end gap-3">
+            {draftMessage && <span className="text-xs text-mauve">{draftMessage}</span>}
+            <button type="button" onClick={saveDraft} className={secondaryBtn}>
+              저장
+            </button>
+            <button type="button" onClick={exportPromptMd} className={secondaryBtn}>
+              프롬프트 MD 다운로드
+            </button>
+            <button type="button" onClick={() => setStep(2)} className={primaryBtn}>
+              다음: 본문 생성 & 발행 →
+            </button>
+          </div>
         </div>
       )}
 
