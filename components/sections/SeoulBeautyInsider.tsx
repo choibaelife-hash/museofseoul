@@ -27,7 +27,7 @@ export function SeoulBeautyInsider({ posts }: { posts: InsiderPost[] }) {
           </Link>
         </div>
 
-        <div className="flex snap-x snap-mandatory gap-6 overflow-x-auto px-6 pb-2">
+        <div className="scrollbar-hide flex snap-x snap-mandatory gap-6 overflow-x-auto px-6 pb-2">
           {posts.map((post) => {
             const subcategory = getInsiderSubcategory(post.subcategory);
             return (

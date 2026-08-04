@@ -12,7 +12,7 @@ import { insiderPostsQuery, latestPostsQuery } from "@/lib/sanity/queries";
 import type { InsiderPost, Post } from "@/lib/types";
 
 const outlineButton =
-  "inline-block border border-foreground px-5 py-2.5 text-xs uppercase tracking-widest text-foreground transition-colors hover:bg-foreground hover:text-white";
+  "inline-block text-xs uppercase tracking-widest text-foreground underline decoration-1 underline-offset-4 transition-colors hover:text-mauve";
 
 // One brand color per category, tuned to a similar tint strength so no
 // single tile reads darker/more saturated than the others.
@@ -40,23 +40,22 @@ function LatestPostsSection({
 }) {
   return (
     <section className="mx-auto w-full max-w-6xl px-6">
-      <div className="mb-10 flex items-end justify-between gap-4 border-b border-foreground/10 pb-5">
-        <div>
-          <span className="mb-2 block text-[10px] font-medium uppercase tracking-[0.2em] text-mauve">
-            {eyebrow}
-          </span>
-          <h2 className="font-serif text-3xl sm:text-4xl">{title}</h2>
-        </div>
-        <Link href="/blog" className={`${outlineButton} hidden sm:inline-block`}>
-          See more
-        </Link>
+      <div className="mb-10 border-b border-foreground/10 pb-5">
+        <span className="mb-2 block text-[10px] font-medium uppercase tracking-[0.2em] text-mauve">
+          {eyebrow}
+        </span>
+        <h2 className="font-serif text-3xl sm:text-4xl">{title}</h2>
       </div>
       {posts.length === 0 ? (
         <p className="text-sm text-foreground/50">New posts coming soon.</p>
       ) : (
-        <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="scrollbar-hide -mx-3 flex snap-x snap-mandatory gap-8 overflow-x-auto p-3 sm:mx-0 sm:grid sm:grid-cols-2 sm:overflow-visible sm:p-0 lg:grid-cols-3">
           {posts.map((post) => (
-            <Link key={post.slug} href={`/blog/${post.slug}`} className="group block">
+            <Link
+              key={post.slug}
+              href={`/blog/${post.slug}`}
+              className="group block w-[260px] shrink-0 snap-start sm:w-auto sm:shrink"
+            >
               <div className="relative mb-4 aspect-[4/3] overflow-hidden bg-black/5">
                 {post.mainImage ? (
                   <Image
@@ -111,7 +110,7 @@ export default async function Home() {
       {/* Hero */}
       {mainFeatured ? (
         <section className="grid grid-cols-1 border-b border-foreground/10 md:grid-cols-2">
-          <div className="flex flex-col justify-center bg-cream/40 px-6 py-12 sm:px-10 md:px-16">
+          <div className="order-2 flex flex-col justify-center bg-cream/40 px-6 py-12 sm:px-10 md:order-1 md:px-16">
             <span className="text-[10px] font-medium uppercase tracking-[0.2em] text-mauve">
               {getCategory(mainFeatured.category)?.label ?? "Featured"}
             </span>
@@ -126,7 +125,7 @@ export default async function Home() {
               Read now
             </Link>
           </div>
-          <div className="relative min-h-[320px] overflow-hidden bg-black/5 md:min-h-full">
+          <div className="order-1 relative min-h-[320px] overflow-hidden bg-black/5 md:order-2 md:min-h-full">
             {mainFeatured.mainImage ? (
               <Image
                 src={mainFeatured.mainImage.url}
@@ -159,30 +158,29 @@ export default async function Home() {
       )}
 
       {/* Dive into Beauty — category grid */}
-      <section className="mx-auto grid w-full grid-cols-1 border-y border-foreground/10 md:grid-cols-6">
-        <div className="flex flex-col justify-between gap-6 border-b border-foreground/10 p-8 md:col-span-1 md:border-b-0 md:border-r md:p-10">
+      <section className="mx-auto grid w-full grid-cols-1 md:grid-cols-6">
+        <div className="flex items-center justify-between gap-4 p-8 md:flex-col md:items-stretch md:justify-between md:gap-6 md:border-r md:p-10">
           <div>
-            <span className="mb-3 block text-[10px] font-medium uppercase tracking-[0.2em] text-mauve">
+            <span className="mb-1 block text-[10px] font-medium uppercase tracking-[0.2em] text-mauve md:mb-3">
               Categories
             </span>
-            <h2 className="font-serif text-2xl leading-snug sm:text-3xl">
-              Muse of Seoul
-              <br />
+            <h2 className="font-serif text-lg leading-snug sm:text-2xl md:text-3xl">
+              Muse of Seoul <br className="hidden md:block" />
               Beauty
             </h2>
           </div>
-          <Link href="/blog" className={`${outlineButton} self-start`}>
+          <Link href="/blog" className={`${outlineButton} shrink-0 self-center md:self-start`}>
             See more
           </Link>
         </div>
-        <div className="grid grid-cols-2 sm:grid-cols-4 md:col-span-5 md:grid-cols-4">
+        <div className="scrollbar-hide flex snap-x snap-mandatory gap-3 overflow-x-auto px-4 pb-1 md:col-span-5 md:grid md:grid-cols-4 md:gap-0 md:overflow-visible md:px-0 md:pb-0">
           {categories.map((category) => {
             const hasImage = categoryImageExists(category.image);
             return (
               <Link
                 key={category.slug}
                 href={`/category/${category.slug}`}
-                className={`group relative flex aspect-[3/4] flex-col justify-end overflow-hidden border-b border-r border-foreground/10 p-5 last:border-r-0 transition-all duration-300 ease-out hover:-translate-y-1.5 hover:shadow-lg ${hasImage ? "" : categoryTileColors[category.slug]}`}
+                className={`group relative flex aspect-[3/4] w-[42vw] shrink-0 snap-start flex-col justify-end overflow-hidden rounded-lg border border-foreground/10 p-5 transition-all duration-300 ease-out hover:-translate-y-1.5 hover:shadow-lg md:w-auto md:shrink md:rounded-none md:border-0 md:border-b md:border-r md:border-foreground/10 md:last:border-r-0 ${hasImage ? "" : categoryTileColors[category.slug]}`}
               >
                 {hasImage ? (
                   <>
@@ -215,12 +213,12 @@ export default async function Home() {
       {popularPosts.length > 0 && (
         <section className="mx-auto w-full max-w-6xl px-6">
           <h2 className="mb-6 font-serif text-2xl">Popular Posts</h2>
-          <div className="grid grid-cols-1 gap-8 sm:grid-cols-3">
+          <div className="scrollbar-hide -mx-3 flex snap-x snap-mandatory gap-6 overflow-x-auto p-3 sm:mx-0 sm:grid sm:grid-cols-3 sm:overflow-visible sm:p-0">
             {popularPosts.map((post) => (
               <Link
                 key={post.slug}
                 href={`/blog/${post.slug}`}
-                className="group -m-3 block rounded-lg border-2 border-transparent p-3 transition-colors duration-200 ease-[ease] hover:border-mauve hover:bg-mauve/6"
+                className="group -m-3 block w-[220px] shrink-0 snap-start rounded-lg border-2 border-transparent p-3 transition-colors duration-200 ease-[ease] hover:border-mauve hover:bg-mauve/6 sm:w-auto sm:shrink"
               >
                 <div className="relative mb-3 aspect-square overflow-hidden bg-black/5">
                   {post.mainImage ? (
