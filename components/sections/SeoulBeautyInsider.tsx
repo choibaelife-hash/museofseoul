@@ -42,9 +42,12 @@ export function SeoulBeautyInsider({ posts }: { posts: InsiderPost[] }) {
                       src={post.mainImage.url}
                       alt={post.title}
                       fill
-                      className="object-cover transition-transform duration-500 group-hover:scale-105"
+                      className="object-cover transition-transform duration-500 group-hover:scale-[1.04]"
                     />
                   ) : null}
+                  <span className="absolute right-3 top-3 flex h-8 w-8 items-center justify-center rounded-full bg-black/30 text-white transition-transform duration-300 ease-out group-hover:translate-x-0.5 group-hover:-translate-y-0.5">
+                    ↗
+                  </span>
                 </div>
                 {subcategory ? (
                   <span className="mb-3 inline-block bg-aqua px-3 py-1 text-[10px] font-medium uppercase tracking-wide text-plum">

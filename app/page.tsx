@@ -132,7 +132,7 @@ export default async function Home() {
                 src={mainFeatured.mainImage.url}
                 alt={mainFeatured.title}
                 fill
-                className="object-cover"
+                className="object-cover object-top"
               />
             ) : (
               <div className="flex h-full items-center justify-center text-sm text-black/40">
@@ -182,7 +182,7 @@ export default async function Home() {
               <Link
                 key={category.slug}
                 href={`/category/${category.slug}`}
-                className={`group relative flex aspect-[3/4] flex-col justify-end overflow-hidden border-b border-r border-foreground/10 p-5 last:border-r-0 ${hasImage ? "" : categoryTileColors[category.slug]}`}
+                className={`group relative flex aspect-[3/4] flex-col justify-end overflow-hidden border-b border-r border-foreground/10 p-5 last:border-r-0 transition-all duration-300 ease-out hover:-translate-y-1.5 hover:shadow-lg ${hasImage ? "" : categoryTileColors[category.slug]}`}
               >
                 {hasImage ? (
                   <>
@@ -190,7 +190,7 @@ export default async function Home() {
                       src={category.image}
                       alt={category.label}
                       fill
-                      className="object-cover transition-transform duration-500 group-hover:scale-105"
+                      className="object-cover transition-transform duration-400 group-hover:scale-105"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
                   </>
@@ -217,7 +217,11 @@ export default async function Home() {
           <h2 className="mb-6 font-serif text-2xl">Popular Posts</h2>
           <div className="grid grid-cols-1 gap-8 sm:grid-cols-3">
             {popularPosts.map((post) => (
-              <Link key={post.slug} href={`/blog/${post.slug}`} className="group block">
+              <Link
+                key={post.slug}
+                href={`/blog/${post.slug}`}
+                className="group -m-3 block rounded-lg border-2 border-transparent p-3 transition-colors duration-200 ease-[ease] hover:border-mauve hover:bg-mauve/6"
+              >
                 <div className="relative mb-3 aspect-square overflow-hidden bg-black/5">
                   {post.mainImage ? (
                     <Image
