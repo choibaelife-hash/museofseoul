@@ -1,9 +1,8 @@
 # Muse of Seoul
-> Beauty, food, and lifestyle guides for Seoul, written by a local.
+> K-beauty insider Blog — your guide to beauty clinics, tours, and honest local tips in Seoul.
 
 ## Categories
-- Beauty Treatments: /category/beauty
-- K-Beauty Products: /category/k-beauty
-- Stay in Seoul: /category/stay
-- Food & Cafes: /category/food
-- Seoul Neighborhoods: /category/neighborhoods
+- K-Beauty Treatments: /category/beauty — Clinics, skincare treatments, and honest reviews.
+- K-Beauty Products: /category/k-beauty — Product reviews and what's actually worth buying.
+- Stay in Seoul: /category/stay — Hotels and neighborhoods to base yourself in.
+- Where to Go in Seoul: /category/where-to-go — Neighborhood guides, cafes, and restaurants worth the trip.
