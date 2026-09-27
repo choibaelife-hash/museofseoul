@@ -1,3 +1,4 @@
+import { postCacheTags } from "@/lib/sanity/cache";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { PostCard } from "@/components/PostCard";
@@ -39,6 +40,7 @@ export default async function CategoryPage({
 
   const { data: posts } = await sanityFetch<Post[]>({
     query: postsByCategoryQuery,
+    tags: [postCacheTags.category(category.slug)],
     params: { category: category.slug },
   });
 

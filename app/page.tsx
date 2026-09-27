@@ -1,3 +1,4 @@
+import { postCacheTags } from "@/lib/sanity/cache";
 import fs from "node:fs";
 import path from "node:path";
 import Image from "next/image";
@@ -93,10 +94,12 @@ function LatestPostsSection({
 export default async function Home() {
   const { data } = await sanityFetch<Post[]>({
     query: latestPostsQuery,
+    tags: [postCacheTags.home],
     params: { limit: 9 },
   });
   const { data: insiderPosts } = await sanityFetch<InsiderPost[]>({
     query: insiderPostsQuery,
+    tags: [postCacheTags.category("beauty")],
   });
   const posts = data;
   const [mainFeatured, ...rest] = posts;

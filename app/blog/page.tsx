@@ -1,3 +1,4 @@
+import { postCacheTags } from "@/lib/sanity/cache";
 import type { Metadata } from "next";
 import { categories } from "@/lib/site";
 import { sanityFetch } from "@/lib/sanity/fetch";
@@ -15,6 +16,7 @@ export default async function BlogPage() {
     categories.map(async (category) => {
       const { data } = await sanityFetch<Post[]>({
         query: postsByCategoryQuery,
+        tags: [postCacheTags.category(category.slug)],
         params: { category: category.slug },
       });
       return { category, posts: data.slice(0, 3) };

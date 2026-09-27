@@ -1,3 +1,4 @@
+import { postCacheTags } from "@/lib/sanity/cache";
 import { cache } from "react";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
@@ -17,6 +18,7 @@ import type { Post } from "@/lib/types";
 const getPost = cache(async (slug: string) => {
   const { data } = await sanityFetch<Post | null>({
     query: postBySlugQuery,
+    tags: [postCacheTags.detail(slug)],
     params: { slug },
   });
   return data;
